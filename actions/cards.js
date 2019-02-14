@@ -30,7 +30,7 @@ export function handleAddCard(card, idDeck) {
     return (dispatch) => {
         return submitCard(card, idDeck)
             .then(cd => {
-                dispatch(addCard(cd))
+                dispatch(addCard(cd));
             })
     }
 }

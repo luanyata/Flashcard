@@ -24,7 +24,11 @@ class DeckDetail extends Component {
         ]).start();
 
 
+        console.log(this.props,'><><><><><<>');
+
         const {id, nameDeck, countCards, color = accentBackground} = this.props.deck;
+        const {navigate} = this.props.navigation;
+
 
 
         return (
@@ -39,12 +43,12 @@ class DeckDetail extends Component {
                 <View>
                     <TouchableOpacity
                         style={[styles.btn, {backgroundColor: color}]}
-                        onPress={() => this.props.navigation.navigate('Question')}>
+                        onPress={() => navigate('Question', {idDeck: id})}>
                         <Text style={styles.labelBtn}>Start a Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[styles.btn, {backgroundColor: color}]}
-                        onPress={() => this.props.navigation.navigate('CreateNewQuestion', {idDeck: id})}>
+                        onPress={() => navigate('CreateNewQuestion', {idDeck: id})}>
                         <Text style={styles.labelBtn}>Create New Question</Text>
                     </TouchableOpacity>
                 </View>

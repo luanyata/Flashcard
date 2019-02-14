@@ -32,9 +32,10 @@ class Decks extends Component {
 
         if (decksArray.length <= 0) {
             return (
-                <View style={styles.container}>
+                <View style={{flex: 1}}>
                     <Text style={styles.welcomeEmpty}>
-                        Welcome, it looks like you do not have a registered deck yet, click the button below to create.
+                        Welcome, it looks like you do not have a registered deck yet, click the button below to
+                        create.
                     </Text>
                     <TouchableOpacity
                         style={styles.btn}
@@ -65,10 +66,6 @@ class Decks extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center'
-    },
     btnNewDeck: {
         backgroundColor: accentBackground,
         alignItems: 'center',
@@ -81,8 +78,7 @@ const styles = StyleSheet.create({
     },
     welcome: {
         fontSize: 20,
-        marginBottom: 5,
-        alignItems: 'center'
+        marginBottom: 30,
     },
     welcomeEmpty: {
         justifyContent: 'center',

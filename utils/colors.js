@@ -6,3 +6,6 @@ export const accentBackground = '#CDDC39';
 export const primaryText = '#212121';
 export const secondaryText = '#757575';
 export const dividerBorder = '#BDBDBD';
+
+
+export const red = '#D32F2F';

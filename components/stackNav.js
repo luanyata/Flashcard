@@ -6,6 +6,7 @@ import DeckDetail from "./deckDetail";
 import CreateNewQuestion from "./createNewQuestion";
 import Question from "./question";
 import CreateNewDeck from "./createNewDeck";
+import Score from "./score";
 
 const StackNav = createStackNavigator({
     Home: {
@@ -77,6 +78,21 @@ const StackNav = createStackNavigator({
             }
         }
     },
+    Score: {
+        screen: Score,
+        navigationOptions: {
+            title: 'Score',
+            headerTitleStyle: {
+                fontSize: 25,
+                color: textPrimary,
+            },
+            headerTintColor: textPrimary,
+            headerStyle: {
+                backgroundColor: defaultPrimaryBackground,
+            }
+        }
+    },
+
 });
 
 export default createAppContainer(StackNav)

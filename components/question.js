@@ -1,22 +1,38 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity} from 'react-native'
+import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import Score from "./score";
+import {accentBackground, defaultPrimaryBackground, dividerBorder, red, textPrimary} from "../utils/colors";
 
 
 class Question extends Component {
 
     state = {
         show: false,
-        countAnswers: 0,
-        total: 0
+        questionNumber: 1,
+        total: 0,
+        hits: 0,
     };
+
+    componentDidMount() {
+        this.setState(() => ({
+            total: this.props.cardsDeck.length
+        }))
+    }
 
     handleState = (response) => {
         const {type, show} = response;
+        const {questionNumber} = this.state;
+
+        let hit = 0;
+        type === 'correct' && hit++;
+
         this.setState(() => ({
-            show
-        }))
+            show,
+            questionNumber: questionNumber + 1,
+            hits: hit
+        }));
+        this.props.cardsDeck.pop();
     };
 
     handleShow = (value) => {
@@ -25,48 +41,111 @@ class Question extends Component {
 
     render() {
 
-        const {show, countAnswers, total} = this.state;
+        const {show, questionNumber, total} = this.state;
+        const {question, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
 
-        if (this.props) {
-            return <Score data={this.props}/>
-        }
+
+        // if (false) {
+        //     return this.props.navigation.navigate('Score')
+        // }
 
 
         return (
-            <View>
-                <View>
-                    <Text>{`${countAnswers}/ ${total}`}</Text>
+            <View style={styles.container}>
+                <View style={{alignItems: 'center'}}>
+                    <Text style={styles.score}>{`${questionNumber} / ${total}`}</Text>
                 </View>
-                <View>
-                    <Text>Question</Text>
+                <View style={{flex: 1}}>
+                    <Text style={styles.title}>Question</Text>
+                    <TextInput
+                        multiline={true}
+                        editable={false}
+                        maxLength={500}
+                        ed
+                        style={styles.textArea}>{question}</TextInput>
                 </View>
 
-                <TouchableOpacity onPress={() => this.handleShow(true)}>
-                    <Text>Show</Text>
+                <TouchableOpacity
+                    style={[styles.show, styles.btn]}
+                    onPress={() => this.handleShow(true)}>
+                    <Text style={styles.labelBtn}>Show Response</Text>
                 </TouchableOpacity>
 
                 {show &&
                 <View>
-                    <Text>answer</Text>
+                    <Text style={styles.title}>Answer</Text>
+                    <TextInput
+                        multiline={true}
+                        maxLength={500}
+                        editable={false}
+                        style={styles.textArea}>{answer}</TextInput>
                 </View>
                 }
 
-                <TouchableOpacity onPress={() => this.handleState({type: 'co', show: false})}>
-                    <Text>Co</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => this.handleState({type: 'co', show: false})}>
-                    <Text>In</Text>
-                </TouchableOpacity>
+                <View style={styles.action}>
+                    <TouchableOpacity style={[styles.correct, styles.btn]}
+                                      onPress={() => this.handleState({type: 'correct', show: false})}>
+                        <Text style={styles.labelBtn}>Correct</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.incorrect, styles.btn]}
+                                      onPress={() => this.handleState({type: 'incorrect', show: false})}>
+                        <Text style={styles.labelBtn}>Incorrect</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    score: {
+        fontSize: 15,
+    },
+    action: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    btn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 10,
+        margin: 10
+
+    },
+    correct: {
+        backgroundColor: defaultPrimaryBackground,
+        flexGrow: 1
+    },
+    incorrect: {
+        backgroundColor: red,
+        flexGrow: 1
+    },
+    show: {
+        backgroundColor: accentBackground
+    },
+    labelBtn: {
+        color: textPrimary,
+        fontSize: 20,
+
+    },
+    title: {
+        fontSize: 20
+    },
+    textArea: {
+        borderColor: dividerBorder,
+        borderWidth: 1,
+        height: 170,
+        margin: 5
+    },
+});
 
 function mapStateToProps({cards}, props) {
     const id = props.navigation.state.params.idDeck;
-
-    const cardsDeck = Object.values(cards.map(card => card.idDeck === id));
+    const listCards = Object.values(cards);
+    const cardsDeck = listCards.filter(card => card.idDeck === id && card);
 
     return {
         cardsDeck

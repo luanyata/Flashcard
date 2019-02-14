@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         height: 200,
         margin: 5
-
     },
 
     btn: {
