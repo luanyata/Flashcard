@@ -1,7 +1,7 @@
 import React from 'react'
-import {createAppContainer, createStackNavigator} from 'react-navigation'
+import {createAppContainer, createStackNavigator} from 'react-navigation';
 import Decks from "./decks";
-import {defaultPrimaryBackground, textPrimary} from '../utils/colors'
+import {defaultPrimaryBackground, textPrimary} from '../utils/colors';
 import DeckDetail from "./deckDetail";
 import CreateNewQuestion from "./createNewQuestion";
 import Question from "./question";
@@ -18,7 +18,6 @@ const StackNav = createStackNavigator({
             },
             headerStyle: {
                 backgroundColor: defaultPrimaryBackground,
-
             }
         }
     },
@@ -33,7 +32,6 @@ const StackNav = createStackNavigator({
             headerTintColor: textPrimary,
             headerStyle: {
                 backgroundColor: defaultPrimaryBackground,
-
             }
         }
     },
@@ -48,7 +46,6 @@ const StackNav = createStackNavigator({
             headerTintColor: textPrimary,
             headerStyle: {
                 backgroundColor: defaultPrimaryBackground,
-
             }
         }
     },
@@ -63,7 +60,6 @@ const StackNav = createStackNavigator({
             headerTintColor: textPrimary,
             headerStyle: {
                 backgroundColor: defaultPrimaryBackground,
-
             }
         }
     },
@@ -72,16 +68,15 @@ const StackNav = createStackNavigator({
         navigationOptions: {
             title: 'Question',
             headerTitleStyle: {
-                fontSize: 20,
+                fontSize: 25,
                 color: textPrimary,
             },
             headerTintColor: textPrimary,
             headerStyle: {
                 backgroundColor: defaultPrimaryBackground,
-
             }
         }
-    }
+    },
 });
 
 export default createAppContainer(StackNav)
