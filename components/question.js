@@ -12,6 +12,7 @@ class Question extends Component {
         questionNumber: 1,
         total: 0,
         hits: 0,
+        endQuestion: false
     };
 
     componentDidMount() {
@@ -22,7 +23,7 @@ class Question extends Component {
 
     handleState = (response) => {
         const {type, show} = response;
-        const {questionNumber} = this.state;
+        const {questionNumber, total} = this.state;
 
         let hit = 0;
         type === 'correct' && hit++;
@@ -32,7 +33,15 @@ class Question extends Component {
             questionNumber: questionNumber + 1,
             hits: hit
         }));
-        this.props.cardsDeck.pop();
+
+        if (questionNumber !== total) {
+            this.props.cardsDeck.pop();
+        } else {
+            this.setState(() => ({
+                endQuestion: true
+            }))
+        }
+
     };
 
     handleShow = (value) => {
@@ -41,13 +50,14 @@ class Question extends Component {
 
     render() {
 
-        const {show, questionNumber, total} = this.state;
-        const {question, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
+        const {show, questionNumber, total, endQuestion} = this.state;
 
 
-        // if (false) {
-        //     return this.props.navigation.navigate('Score')
-        // }
+        const {question = {}, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
+
+        if (endQuestion) {
+            return this.props.navigation.navigate('Score')
+        }
 
 
         return (
