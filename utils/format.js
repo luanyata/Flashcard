@@ -4,7 +4,7 @@ import {accentBackground} from "./colors";
 export function formatDeck(deck) {
 
     const id = generateUID();
-    const {nameDeck, color, countCards,cards} = deck;
+    const {nameDeck, color, countCards, cards} = deck;
 
     return {
         key: id,
@@ -25,6 +25,7 @@ export function formatCard(card, idDeck) {
         id,
         idDeck,
         question,
-        answer
+        answer,
+        key: id
     }
 }

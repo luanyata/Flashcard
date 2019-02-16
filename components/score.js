@@ -29,12 +29,12 @@ class Score extends Component {
                 </View>
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.reset, styles.btn]}
-                                      onPress={() => navigate('DeckDetail', {idDeck})}>
-                        <Text style={styles.labelBtn}> Reset</Text>
+                                      onPress={() => this.props.navigate('DeckDetail', {idDeck})}>
+                        <Text style={styles.labelBtn}> Reset Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.back, styles.btn]}
-                                      onPress={() => navigate('Decks')}>
-                        <Text style={styles.labelBtn}>Back</Text>
+                                      onPress={() => this.props.navigate('Home')}>
+                        <Text style={styles.labelBtn}>Back To Deck</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
         margin: 10
-
     },
     reset: {
         backgroundColor: defaultPrimaryBackground,
@@ -70,7 +69,6 @@ const styles = StyleSheet.create({
     labelBtn: {
         color: textPrimary,
         fontSize: 20,
-
     },
 });
 
@@ -78,11 +76,11 @@ const styles = StyleSheet.create({
 function mapStateToProps({}, props) {
 
     const result = props.navigation.state.params.result;
-
-    console.log(result, 'result');
+    const navigate = props.navigation.navigate;
 
     return {
-        result
+        result,
+        navigate
     }
 }
 

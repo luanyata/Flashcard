@@ -1,4 +1,4 @@
-import {GET_DECKS, ADD_DECK} from "../actions/decks";
+import {GET_DECKS, ADD_DECK, DECK_GET_BY_ID} from "../actions/decks";
 import {ADD_CARD} from "../actions/cards";
 
 export default function (state = {}, action) {
@@ -20,7 +20,10 @@ export default function (state = {}, action) {
                     countCards: state[action.card.idDeck].cards.length + 1
                 }
             };
+        case DECK_GET_BY_ID:
+            return state[action.idDeck];
         default:
             return state
     }
 }
+

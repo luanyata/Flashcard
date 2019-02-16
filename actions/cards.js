@@ -1,4 +1,4 @@
-import {submitCard, getAllCards as allCards} from "../utils/storage";
+import {getAllCards as allCards} from "../utils/storage";
 
 export const GET_CARD = 'GET_CARD';
 export const ADD_CARD = 'ADD_CARD';
@@ -11,7 +11,7 @@ function getCard(card) {
     }
 }
 
-function addCard(card) {
+export function addCard(card) {
     return {
         type: ADD_CARD,
         card
@@ -22,16 +22,6 @@ function getAllCards(cards) {
     return {
         type: GET_ALL_CARDS,
         cards
-    }
-}
-
-
-export function handleAddCard(card, idDeck) {
-    return (dispatch) => {
-        return submitCard(card, idDeck)
-            .then(cd => {
-                dispatch(addCard(cd));
-            })
     }
 }
 

@@ -20,8 +20,7 @@ export const getDeckAll = () => {
         .then(res => JSON.parse(res));
 };
 
-export const submitCard = card => {
-
+export const submitCard = (card) => {
     const newCard = {[card.id]: card};
 
     return AsyncStorage.mergeItem(CARDS, JSON.stringify(newCard))

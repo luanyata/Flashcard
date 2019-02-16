@@ -110,6 +110,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps({decks}) {
     const decksArray = Object.values(decks);
+
+
     return {
         decksArray
     }

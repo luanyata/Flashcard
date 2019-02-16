@@ -2,9 +2,10 @@ import {getDeckAll, submitDeck} from "../utils/storage";
 
 export const GET_DECKS = 'GET_DECKS';
 export const ADD_DECK = 'ADD_DECK';
+export const DECK_GET_BY_ID = 'DECK_GET_BY_ID';
 
 
-function getDecks(decks) {
+export function getDecks(decks) {
     return {
         type: GET_DECKS,
         decks
@@ -18,6 +19,13 @@ function addDeck(deck) {
     }
 }
 
+export function deckById(deck) {
+    return {
+        type: DECK_GET_BY_ID,
+        deck
+    }
+}
+
 export function handleGetDesks() {
     return (dispatch) => {
         return getDeckAll()
@@ -27,6 +35,7 @@ export function handleGetDesks() {
             })
     }
 }
+
 
 export function handleAddDeck(deck) {
     return (dispatch) => {

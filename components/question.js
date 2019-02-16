@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
     },
 });
 
-function mapStateToProps({cards}, props) {
+function mapStateToProps({decks}, props) {
     const id = props.navigation.state.params.idDeck;
-    const listCards = Object.values(cards);
-    const cardsDeck = listCards.filter(card => card.idDeck === id && card);
+
+    const cardsDeck = decks[id].cards;
 
     return {
         cardsDeck

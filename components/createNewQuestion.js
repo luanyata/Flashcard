@@ -2,8 +2,10 @@ import React, {Component} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, TextInput} from "react-native";
 import {textPrimary, accentBackground, dividerBorder} from "../utils/colors";
 import {connect} from 'react-redux'
-import {handleAddCard} from "../actions/cards";
+import {addCard} from "../actions/cards";
 import {formatCard} from "../utils/format";
+import {submitCard, submitDeck} from "../utils/storage";
+import {deckById, handleGetDesks} from "../actions/decks";
 
 
 class CreateNewQuestion extends Component {
@@ -14,9 +16,16 @@ class CreateNewQuestion extends Component {
     };
 
     handleSubmit = () => {
-        const idDeck = this.props.id;
+        const {id, dispatch, decks} = this.props;
 
-        this.props.dispatch(handleAddCard(formatCard(this.state, idDeck)));
+        const card = dispatch(addCard(formatCard(this.state, id))).card;
+        submitCard(card);
+
+        let desc = dispatch(deckById(decks[id])).decks;
+        console.log(desc, 'uuuu');
+        //submitDeck(decks[id]);
+
+
     };
 
     render() {
@@ -86,12 +95,13 @@ const styles = StyleSheet.create({
     }
 });
 
-function mapStateToProps({}, props) {
+function mapStateToProps({decks}, props) {
 
     const id = props.navigation.state.params.idDeck;
 
     return {
-        id
+        id,
+        decks
     }
 }
 
