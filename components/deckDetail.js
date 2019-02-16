@@ -23,12 +23,8 @@ class DeckDetail extends Component {
             Animated.spring(bounceValue, {toValue: 1, friction: 10})
         ]).start();
 
-
-        console.log(this.props,'><><><><><<>');
-
         const {id, nameDeck, countCards, color = accentBackground} = this.props.deck;
         const {navigate} = this.props.navigation;
-
 
 
         return (
