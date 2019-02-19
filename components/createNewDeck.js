@@ -16,9 +16,10 @@ class CreateNewDeck extends Component {
 
     handleSubmit = () => {
         let deck = formatDeck(this.state);
-        this.props.dispatch(handleAddDeck(deck));
-        this.props.navigation.goBack();
-//        this.props.navigation.navigate('DeckDetail', {idDeck: deck.id});
+        this.props.dispatch(handleAddDeck(deck)).then(() => {
+            this.props.navigation.navigate('DeckDetail', {idDeck: deck.id});
+        });
+
     };
     handleInputChange = (nameDeck) => {
         this.setState(() => ({nameDeck}))
@@ -49,6 +50,7 @@ class CreateNewDeck extends Component {
                 </Picker>
 
                 <TouchableOpacity
+                    disabled={nameDeck.length === 0}
                     style={styles.btn}
                     onPress={this.handleSubmit}>
                     <Text style={styles.labelBtn}>
@@ -83,5 +85,6 @@ const styles = StyleSheet.create({
         color: textPrimary,
     }
 });
+
 
 export default connect()(CreateNewDeck)

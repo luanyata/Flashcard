@@ -8,7 +8,7 @@ export function formatDeck(deck) {
 
     return {
         key: id,
-        id: id,
+        id,
         nameDeck,
         color: color === '' ? accentBackground : color,
         countCards,

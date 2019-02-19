@@ -2,8 +2,7 @@ import {getDeckAll, submitDeck} from "../utils/storage";
 
 export const GET_DECKS = 'GET_DECKS';
 export const ADD_DECK = 'ADD_DECK';
-export const DECK_GET_BY_ID = 'DECK_GET_BY_ID';
-
+export const UPDATE_ASYNC_STORAGE = 'UPDATE_ASYNC_STORAGE';
 
 export function getDecks(decks) {
     return {
@@ -19,10 +18,9 @@ function addDeck(deck) {
     }
 }
 
-export function deckById(deck) {
+export function updateAsyncStorage() {
     return {
-        type: DECK_GET_BY_ID,
-        deck
+        type: UPDATE_ASYNC_STORAGE
     }
 }
 

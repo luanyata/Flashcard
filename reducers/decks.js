@@ -1,10 +1,15 @@
-import {GET_DECKS, ADD_DECK, DECK_GET_BY_ID} from "../actions/decks";
+import {GET_DECKS, ADD_DECK, UPDATE_ASYNC_STORAGE} from "../actions/decks";
 import {ADD_CARD} from "../actions/cards";
+import {updateAsyncStorage} from "../utils/storage";
 
 export default function (state = {}, action) {
     switch (action.type) {
         case GET_DECKS:
-            return action.decks;
+            return {
+                ...state,
+                ...action.decks
+            };
+
         case ADD_DECK:
             return {
                 ...state,
@@ -20,10 +25,10 @@ export default function (state = {}, action) {
                     countCards: state[action.card.idDeck].cards.length + 1
                 }
             };
-        case DECK_GET_BY_ID:
-            return state[action.idDeck];
+        case UPDATE_ASYNC_STORAGE:
+            updateAsyncStorage(state);
+            return state;
         default:
             return state
     }
 }
-

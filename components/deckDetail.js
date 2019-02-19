@@ -37,11 +37,14 @@ class DeckDetail extends Component {
                 </View>
 
                 <View>
+                    {countCards > 0 &&
                     <TouchableOpacity
                         style={[styles.btn, {backgroundColor: color}]}
                         onPress={() => navigate('Question', {idDeck: id})}>
                         <Text style={styles.labelBtn}>Start a Quiz</Text>
                     </TouchableOpacity>
+                    }
+
                     <TouchableOpacity
                         style={[styles.btn, {backgroundColor: color}]}
                         onPress={() => navigate('CreateNewQuestion', {idDeck: id})}>
@@ -81,7 +84,6 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps({decks}, props) {
-
     const deck = decks[props.navigation.state.params.idDeck];
 
     return {

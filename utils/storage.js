@@ -9,11 +9,6 @@ export function submitDeck(deck) {
         .then(() => newDeck);
 }
 
-export function submitAllDeck(decks) {
-    return AsyncStorage.mergeItem(DECKS, JSON.stringify(decks))
-        .then(() => console.log('save ok'))
-}
-
 export const getDeckAll = () => {
     //AsyncStorage.clear();
     return AsyncStorage.getItem(DECKS)
@@ -29,3 +24,8 @@ export const submitCard = (card) => {
 
 export const getAllCards = () => AsyncStorage.getItem(CARDS)
     .then(res => JSON.parse(res));
+
+export const updateAsyncStorage = data => {
+    console.log(data, 'update');
+    AsyncStorage.setItem(DECKS, JSON.stringify(data))
+};

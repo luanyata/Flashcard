@@ -4,9 +4,8 @@ import {textPrimary, accentBackground, dividerBorder} from "../utils/colors";
 import {connect} from 'react-redux'
 import {addCard} from "../actions/cards";
 import {formatCard} from "../utils/format";
-import {submitCard, submitDeck} from "../utils/storage";
-import {deckById, handleGetDesks} from "../actions/decks";
-
+import {submitCard} from "../utils/storage";
+import {updateAsyncStorage} from "../actions/decks";
 
 class CreateNewQuestion extends Component {
 
@@ -16,16 +15,16 @@ class CreateNewQuestion extends Component {
     };
 
     handleSubmit = () => {
-        const {id, dispatch, decks} = this.props;
+        const {id, dispatch} = this.props;
 
         const card = dispatch(addCard(formatCard(this.state, id))).card;
         submitCard(card);
+        dispatch(updateAsyncStorage());
 
-        let desc = dispatch(deckById(decks[id])).decks;
-        console.log(desc, 'uuuu');
-        //submitDeck(decks[id]);
-
-
+        this.setState(() => ({
+            question: '',
+            answer: ''
+        }))
     };
 
     render() {
@@ -95,13 +94,12 @@ const styles = StyleSheet.create({
     }
 });
 
-function mapStateToProps({decks}, props) {
+function mapStateToProps({}, props) {
 
     const id = props.navigation.state.params.idDeck;
 
     return {
         id,
-        decks
     }
 }
 

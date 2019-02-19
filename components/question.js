@@ -12,7 +12,8 @@ class Question extends Component {
         questionNumber: 1,
         total: 0,
         hits: 0,
-        endQuestion: false
+        endQuestion: false,
+        idDeck: 0
     };
 
     componentDidMount() {
@@ -21,20 +22,26 @@ class Question extends Component {
         }))
     }
 
-    handleState = (response) => {
-        const {type, show} = response;
+    handleState = (type) => {
         const {questionNumber, hits, total} = this.state;
 
         type === 'correct' && this.setState(() => ({hits: hits + 1}));
 
+        const idDeck = this.props.idDeck;
+
         this.setState(() => ({
-            show,
+            show: false,
             questionNumber: questionNumber + 1,
+            idDeck
         }));
 
         questionNumber !== total
             ? this.props.cardsDeck.pop()
             : this.setState(() => ({endQuestion: true}))
+    };
+
+    handleNavigationScore = () => {
+        this.props.navigation.navigate('Score', {result: this.state})
     };
 
     handleShow = (value) => {
@@ -45,10 +52,11 @@ class Question extends Component {
 
         const {show, questionNumber, total, endQuestion} = this.state;
 
-        const {question, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
+        let {question, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
+
 
         if (endQuestion) {
-            return this.props.navigation.navigate('Score', {result: this.state})
+            this.handleNavigationScore();
         }
 
         return (
@@ -62,7 +70,6 @@ class Question extends Component {
                         multiline={true}
                         editable={false}
                         maxLength={500}
-                        ed
                         style={styles.textArea}>{question}</TextInput>
                 </View>
 
@@ -83,16 +90,19 @@ class Question extends Component {
                 </View>
                 }
 
+                {show &&
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.correct, styles.btn]}
-                                      onPress={() => this.handleState({type: 'correct', show: false})}>
+                                      onPress={() => this.handleState('correct')}>
                         <Text style={styles.labelBtn}>Correct</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.incorrect, styles.btn]}
-                                      onPress={() => this.handleState({type: 'incorrect', show: false})}>
+                                      onPress={() => this.handleState('incorrect')}>
                         <Text style={styles.labelBtn}>Incorrect</Text>
                     </TouchableOpacity>
                 </View>
+                }
+
             </View>
         );
     }
@@ -143,12 +153,14 @@ const styles = StyleSheet.create({
     },
 });
 
-function mapStateToProps({decks}, props) {
-    const id = props.navigation.state.params.idDeck;
+function mapStateToProps({decks, cards}, props) {
 
-    const cardsDeck = decks[id].cards;
+    const idDeck = props.navigation.state.params.idDeck;
+    const listCards = Object.values(cards);
+    const cardsDeck = listCards.filter(card => card.idDeck === idDeck);
 
     return {
+        idDeck,
         cardsDeck
     }
 }

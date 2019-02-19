@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Text, TouchableOpacity, StyleSheet, Animated} from 'react-native'
 import {connect} from 'react-redux'
 import {defaultPrimaryBackground, red, textPrimary} from "../utils/colors";
+import {clearLocalNotification, setLocalNotification} from "../utils/notifications";
 
 class Score extends Component {
 
@@ -9,10 +10,15 @@ class Score extends Component {
         bounceValue: new Animated.Value(1)
     };
 
+    componentDidMount() {
+        clearLocalNotification()
+            .then(setLocalNotification);
+    }
+
     render() {
 
         const {bounceValue} = this.state;
-        const {hits, total} = this.props.result;
+        const {hits, total, idDeck} = this.props.result;
 
         Animated.sequence([
             Animated.timing(bounceValue, {duration: 1000, toValue: 1.5}),
@@ -29,11 +35,11 @@ class Score extends Component {
                 </View>
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.reset, styles.btn]}
-                                      onPress={() => this.props.navigate('DeckDetail', {idDeck})}>
+                                      onPress={() => this.props.navigate('Question', {idDeck: idDeck})}>
                         <Text style={styles.labelBtn}> Reset Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.back, styles.btn]}
-                                      onPress={() => this.props.navigate('Home')}>
+                                      onPress={() => this.props.navigate('DeckDetail', {idDeck: idDeck})}>
                         <Text style={styles.labelBtn}>Back To Deck</Text>
                     </TouchableOpacity>
                 </View>
