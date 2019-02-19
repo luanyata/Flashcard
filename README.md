@@ -44,7 +44,7 @@ $ yarn start
 ou 
 
 ```
-$ expor start
+$ expo start
 ```
 
 ## Ambiente de Testes

@@ -15,10 +15,19 @@ class Score extends Component {
             .then(setLocalNotification);
     }
 
+
+    handleNavigationQuestion = () => {
+        this.props.navigate('Question', {idDeck: this.props.result.idDeck})
+    };
+
+    handleNavigationDeckDetail = () => {
+        this.props.navigate('DeckDetail', {idDeck: this.props.result.idDeck})
+    };
+
     render() {
 
         const {bounceValue} = this.state;
-        const {hits, total, idDeck} = this.props.result;
+        const {hits, total} = this.props.result;
 
         Animated.sequence([
             Animated.timing(bounceValue, {duration: 1000, toValue: 1.5}),
@@ -35,11 +44,11 @@ class Score extends Component {
                 </View>
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.reset, styles.btn]}
-                                      onPress={() => this.props.navigate('Question', {idDeck: idDeck})}>
+                                      onPress={this.handleNavigationQuestion}>
                         <Text style={styles.labelBtn}> Reset Quiz</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.back, styles.btn]}
-                                      onPress={() => this.props.navigate('DeckDetail', {idDeck: idDeck})}>
+                                      onPress={this.handleNavigationDeckDetail}>
                         <Text style={styles.labelBtn}>Back To Deck</Text>
                     </TouchableOpacity>
                 </View>

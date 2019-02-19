@@ -40,19 +40,29 @@ class Question extends Component {
             : this.setState(() => ({endQuestion: true}))
     };
 
+    handleResponseCorrect = () => {
+        this.handleState('correct')
+    };
+
+
+    handleInResponseCorrect = () => {
+        this.handleState('incorrect')
+    };
+
     handleNavigationScore = () => {
         this.props.navigation.navigate('Score', {result: this.state})
     };
 
-    handleShow = (value) => {
-        this.setState(() => ({show: value}))
+    handleShow = () => {
+        this.setState(() => ({show: true}))
     };
 
     render() {
 
         const {show, questionNumber, total, endQuestion} = this.state;
+        const {cardsDeck} = this.props;
 
-        let {question, answer} = this.props.cardsDeck[this.props.cardsDeck.length - 1];
+        let {question, answer} = cardsDeck[cardsDeck.length - 1];
 
 
         if (endQuestion) {
@@ -75,7 +85,7 @@ class Question extends Component {
 
                 <TouchableOpacity
                     style={[styles.show, styles.btn]}
-                    onPress={() => this.handleShow(true)}>
+                    onPress={this.handleShow}>
                     <Text style={styles.labelBtn}>Show Response</Text>
                 </TouchableOpacity>
 
@@ -93,11 +103,11 @@ class Question extends Component {
                 {show &&
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.correct, styles.btn]}
-                                      onPress={() => this.handleState('correct')}>
+                                      onPress={this.handleResponseCorrect}>
                         <Text style={styles.labelBtn}>Correct</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.incorrect, styles.btn]}
-                                      onPress={() => this.handleState('incorrect')}>
+                                      onPress={this.handleInResponseCorrect}>
                         <Text style={styles.labelBtn}>Incorrect</Text>
                     </TouchableOpacity>
                 </View>
