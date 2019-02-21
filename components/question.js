@@ -13,23 +13,27 @@ class Question extends Component {
         total: 0,
         hits: 0,
         endQuestion: false,
-        idDeck: 0
+        idDeck: 0,
+        temp: [],
+        questions: []
     };
 
     componentDidMount() {
         this.setState(() => ({
             total: this.props.cardsDeck.length,
+            questions: [...this.props.cardsDeck]
         }))
     }
 
     handleState = (type) => {
-        const {questionNumber, hits, total} = this.state;
+        const {questionNumber, temp, hits, total, questions} = this.state;
+
+        let {idDeck, navigation} = this.props;
 
         let countQuestion = questionNumber;
 
         type === 'correct' && this.setState(() => ({hits: hits + 1}));
 
-        const idDeck = this.props.idDeck;
 
         this.setState(() => ({
             show: false,
@@ -37,8 +41,9 @@ class Question extends Component {
         }));
 
         if (countQuestion !== total) {
-            this.props.cardsDeck.pop();
+
             this.setState(() => ({
+                temp: [...temp, questions.pop()],
                 questionNumber: questionNumber + 1,
             }));
 
@@ -47,7 +52,11 @@ class Question extends Component {
                 ...this.state
             };
 
-            this.setState({endQuestion: true}, () => this.props.navigation.navigate('Score', {result}))
+
+            this.setState({
+                endQuestion: true,
+                questions: [...temp, ...questions]
+            }, () => navigation.navigate('Score', {result}))
         }
     };
 
