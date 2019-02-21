@@ -1,14 +1,10 @@
 import React, {Component} from 'react'
-import {View, Text, TouchableOpacity, StyleSheet, Animated} from 'react-native'
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native'
 import {connect} from 'react-redux'
 import {defaultPrimaryBackground, red, textPrimary} from "../utils/colors";
 import {clearLocalNotification, setLocalNotification} from "../utils/notifications";
 
 class Score extends Component {
-
-    state = {
-        bounceValue: new Animated.Value(1)
-    };
 
     componentDidMount() {
         clearLocalNotification()
@@ -26,21 +22,15 @@ class Score extends Component {
 
     render() {
 
-        const {bounceValue} = this.state;
         const {hits, total} = this.props.result;
-
-        Animated.sequence([
-            Animated.timing(bounceValue, {duration: 1000, toValue: 1.5}),
-            Animated.spring(bounceValue, {toValue: 1, friction: 10})
-        ]).start();
 
         return (
             <View style={{flex: 1}}>
                 <View style={styles.containerTitle}>
                     <Text style={{fontSize: 100}}>{`${hits}/${total}`}</Text>
                     {hits === total &&
-                    <Animated.Text
-                        style={[{fontSize: 50}, {transform: [{scale: bounceValue}]}]}>👏🏽😲👏🏽</Animated.Text>}
+                    <Text
+                        style={{fontSize: 50}}>👏🏽😲👏🏽</Text>}
                 </View>
                 <View style={styles.action}>
                     <TouchableOpacity style={[styles.reset, styles.btn]}

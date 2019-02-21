@@ -18,12 +18,14 @@ class Question extends Component {
 
     componentDidMount() {
         this.setState(() => ({
-            total: this.props.cardsDeck.length
+            total: this.props.cardsDeck.length,
         }))
     }
 
     handleState = (type) => {
         const {questionNumber, hits, total} = this.state;
+
+        let countQuestion = questionNumber;
 
         type === 'correct' && this.setState(() => ({hits: hits + 1}));
 
@@ -31,13 +33,22 @@ class Question extends Component {
 
         this.setState(() => ({
             show: false,
-            questionNumber: questionNumber + 1,
             idDeck
         }));
 
-        questionNumber !== total
-            ? this.props.cardsDeck.pop()
-            : this.setState(() => ({endQuestion: true}))
+        if (countQuestion !== total) {
+            this.props.cardsDeck.pop();
+            this.setState(() => ({
+                questionNumber: questionNumber + 1,
+            }));
+
+        } else {
+            const result = {
+                ...this.state
+            };
+
+            this.setState({endQuestion: true}, () => this.props.navigation.navigate('Score', {result}))
+        }
     };
 
     handleResponseCorrect = () => {
@@ -49,25 +60,16 @@ class Question extends Component {
         this.handleState('incorrect')
     };
 
-    handleNavigationScore = () => {
-        this.props.navigation.navigate('Score', {result: this.state})
-    };
-
     handleShow = () => {
         this.setState(() => ({show: true}))
     };
 
     render() {
 
-        const {show, questionNumber, total, endQuestion} = this.state;
+        const {show, questionNumber, total} = this.state;
         const {cardsDeck} = this.props;
 
         let {question, answer} = cardsDeck[cardsDeck.length - 1];
-
-
-        if (endQuestion) {
-            this.handleNavigationScore();
-        }
 
         return (
             <View style={styles.container}>
