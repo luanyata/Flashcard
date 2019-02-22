@@ -14,59 +14,56 @@ class Question extends Component {
         hits: 0,
         endQuestion: false,
         idDeck: 0,
-        temp: [],
-        questions: []
+        indexCard: 0
     };
 
     componentDidMount() {
         this.setState(() => ({
             total: this.props.cardsDeck.length,
-            questions: [...this.props.cardsDeck]
         }))
     }
 
-    handleState = (type) => {
-        const {questionNumber, temp, hits, total, questions} = this.state;
-
-        let {idDeck, navigation} = this.props;
+    handleState = () => {
+        const {questionNumber, total} = this.state;
+        const {idDeck, navigation} = this.props;
 
         let countQuestion = questionNumber;
 
-        type === 'correct' && this.setState(() => ({hits: hits + 1}));
-
-
         this.setState(() => ({
             show: false,
-            idDeck
+            idDeck,
         }));
 
-        if (countQuestion !== total) {
 
-            this.setState(() => ({
-                temp: [...temp, questions.pop()],
-                questionNumber: questionNumber + 1,
+        if (countQuestion !== total) {
+            this.setState(prevState => ({
+                questionNumber: prevState.questionNumber + 1,
+                indexCard: prevState.indexCard + 1
             }));
 
         } else {
-            const result = {
-                ...this.state
-            };
 
-
-            this.setState({
+            const result = {...this.state};
+            this.setState(() => ({
                 endQuestion: true,
-                questions: [...temp, ...questions]
-            }, () => navigation.navigate('Score', {result}))
+                indexCard: 0,
+                questionNumber: 1,
+                hits: 0
+            }));
+
+            navigation.navigate('Score', {result: result})
         }
     };
 
     handleResponseCorrect = () => {
-        this.handleState('correct')
+        this.setState(() =>
+                ({hits: this.state.hits + 1}),
+            () => this.handleState('correct'))
     };
 
 
     handleInResponseCorrect = () => {
-        this.handleState('incorrect')
+        this.handleState('incorrect');
     };
 
     handleShow = () => {
@@ -75,10 +72,10 @@ class Question extends Component {
 
     render() {
 
-        const {show, questionNumber, total} = this.state;
+        const {show, questionNumber, total, indexCard} = this.state;
         const {cardsDeck} = this.props;
 
-        let {question, answer} = cardsDeck[cardsDeck.length - 1];
+        let {question, answer} = cardsDeck[indexCard];
 
         return (
             <View style={styles.container}>
